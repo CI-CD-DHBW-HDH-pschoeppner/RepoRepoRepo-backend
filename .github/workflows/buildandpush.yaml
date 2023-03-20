@@ -5,7 +5,7 @@ on: [push]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
+  IMAGE_NAME: ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend
   CONTAINER_NAME: ${{ github.event.repository.name }}
 
 jobs:
@@ -66,7 +66,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           
-          #script: |
-            #docker 
-            #docker pull ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
-            #docker run ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
+          script: |
+            docker stop $(echo $CONTAINER_NAME)
+            docker rm $(echo $CONTAINER_NAME)
+            docker pull ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
+            docker run -d --restart always --name $CONTAINER_NAME ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
