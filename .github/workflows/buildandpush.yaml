@@ -51,6 +51,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-          script: |
-            docker pull ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
-            docker run ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
+         # script: |
+         #   docker pull ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
+          #  docker run ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
