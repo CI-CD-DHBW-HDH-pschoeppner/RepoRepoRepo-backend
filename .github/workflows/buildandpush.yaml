@@ -6,6 +6,7 @@ on: [push]
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  CONTAINER_NAME: ${{ github.event.repository.name }}
 
 jobs:
   build-and-push-image:
@@ -43,7 +44,20 @@ jobs:
       #    push: true
       #    tags: ${{ steps.meta.outputs.tags }}
       #    labels: ${{ steps.meta.outputs.labels }}
-          
+      
+      
+  deploy-to-digital-ocean:
+    needs: build-and-push-image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Display settings
+        run: |
+          echo $(echo REGISTRY=$REGISTRY)
+          echo $(echo CONTAINER_NAME=$CONTAINER_NAME)
+          echo $(echo IMAGE_NAME=$IMAGE_NAME)  
       - name: DigitalOcean App Platform deployment
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -52,6 +66,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           
-         # script: |
-         #   docker pull ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
-          #  docker run ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
+          #script: |
+            #docker 
+            #docker pull ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
+            #docker run ghcr.io/ci-cd-dhbw-hdh-pschoeppner/reporeporepo-backend:master
